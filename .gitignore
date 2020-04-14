@@ -1,3 +1,17 @@
+# Generated Files
+**/buildresults/**
+
+# Sublime-generated Files
+*.sublime-workspace
+
+# Meson subprojects
+**/subprojects/**
+!**/subprojects/*.wrap
+
+########################
+# C / C++ Ignore Rules #
+########################
+
 # Prerequisites
 *.d
 
