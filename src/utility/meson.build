@@ -1,12 +1,14 @@
 utility_inc = [
-	include_directories('.'),
+    include_directories('.'),
 ]
 
-utility_sources = []
+utility_sources = [
+    files('example.c')
+]
 
 clangtidy_files += [
-	utility_sources,
-	# Add header-only files here if you want them linted
+    utility_sources,
+    # Add header-only files here if you want them linted
 ]
 
 # If you have a utility with a source file, add it with a subdir() command
@@ -29,11 +31,11 @@ libutil_native = static_library('util_native',
 )
 
 utility_dep = declare_dependency(
-	include_directories: utility_inc,
-	link_with: libutil,
+    include_directories: utility_inc,
+    link_with: libutil,
 )
 
 utility_native_dep = declare_dependency(
-	include_directories: utility_inc,
-	link_with: libutil_native,
+    include_directories: utility_inc,
+    link_with: libutil_native,
 )
