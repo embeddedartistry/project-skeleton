@@ -111,7 +111,7 @@ pipeline
 		{
 			steps
 			{
-				sh 'sloccount-report-full'
+				sh 'sloccount-full-report'
 			}
 			post
 			{
