@@ -7,30 +7,45 @@
 # There is a required positional argument: the destination directory to use for installing files.
 
 ## Uncomment for debugging
-set -ex
-PS4='${LINENO}: '
+#set -ex
+#PS4='${LINENO}: '
 
+REPLACE_NAME=
 USE_ADR=0
 USE_POTTERY=0
+COPY_LICENSE=0
 USE_GIT=1
 USE_SUBMODULES=1
 
-while getopts "aprhs" opt; do
+# Detect sed -i command b/c OS X uses BSD sed
+if [ "$(uname)" == "Darwin" ]; then
+	SED="sed -i ''"
+else
+	SED="sed -i"
+fi
+
+while getopts "aplrhsn:" opt; do
   case $opt in
   	a) USE_ADR=1
 	;;
 	p) USE_POTTERY=1
+	;;
+	l) COPY_LICENSE=1
 	;;
 	r) USE_GIT=0
 	   USE_SUBMODULES=0
 	;;
 	s) USE_SUBMODULES=0
 	;;
+	n) REPLACE_NAME="$OPTARG"
+	;;
 	h) # Help
 		echo "Usage: deploy_skeleton.sh [optional ags] dest_dir"
 		echo "Optional args:"
 		echo "	-a: initialize destination to use adr-tools"
 		echo "  -p: initialize destination to use pottery"
+		echo "  -l: copy the license file"
+		echo "  -n <name>: Replace template project/app name values with specified name"
 		echo "	-r: Assume non-git environment. Installs submodule files directly."
 		echo "	-s: Don't use submodules, and copy files directly"
 		exit 0
@@ -89,6 +104,9 @@ if [ $USE_SUBMODULES == 0 ]; then
 	git submodule update --init --recursive
 	cp -r ${SUBMODULE_DIRS[@]} $DEST_DIR
 fi
+if [ $COPY_LICENSE == 1 ]; then
+	cp LICENSE $DEST_DIR
+fi
 
 ## The following operations all take place in the destination directory
 cd $DEST_DIR
@@ -110,6 +128,18 @@ else
 	find ${SUBMODULE_DIRS[@]} -name ".git*" -exec rm -rf {} \;
 fi
 
+# Replace placeholder names
+if [ ! -z $REPLACE_NAME ]; then
+	eval $SED "s/PROJECT_NAME/$REPLACE_NAME/g" "meson.build"
+	# Convert spaces to underscores before replacing other values
+	REPLACE_NAME=${REPLACE_NAME// /_}
+	eval $SED "s/APP/$REPLACE_NAME/g" "src/app/meson.build"
+	eval $SED "s/PROJECT/$REPLACE_NAME/g" "test/meson.build"
+	if [ $USE_GIT == 1 ]; then
+		git commit -am "Replace placeholder values in build files with $REPLACE_NAME."
+	fi
+fi
+
 # Initialize ADR
 if [ $USE_ADR == 1 ]; then
 	adr init docs/
@@ -128,4 +158,14 @@ fi
 # Push all changes to the server
 if [ $USE_GIT == 1 ]; then
 	git push || echo "WARNING: git push failed: check repository."
+fi
+
+if [ -z $REPLACE_NAME ]; then
+	echo "NOTE: Replace the placeholder project name in meson.build"
+	echo "NOTE: Replace the placeholder application name in src/app/meson.build"
+	echo "NOTE: Replace the placeholder test application name in test/meson.build"
+fi
+
+if [[ $COPY_LICENSE == 0 && ! -f "LICENSE" || ! -f "LICENSE.md" ]]; then
+	echo "NOTE: Your project does not have a LICENSE or LICENSE.md file in the project root."
 fi
