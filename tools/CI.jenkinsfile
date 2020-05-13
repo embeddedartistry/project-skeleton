@@ -336,7 +336,7 @@ pipeline
 							[threshold: 20, type: 'TOTAL', unstable: false]
 						],
 						tools: [
-							clangAnalyzer(),
+							clang(id: 'scan-build', name: 'scan-build'),
 						]
 					)
 				}
