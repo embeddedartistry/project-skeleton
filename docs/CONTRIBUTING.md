@@ -1,6 +1,6 @@
 # Contributing Guide
 
-Welcome! We love receiving contributions from the community, so thanks for stopping by! There are many ways to contribute, including submitting bug reports, improving documentation, submitting feature requests, reviewing new submissions, or contributing code that can be incorporated into the project.
+Welcome! We love receiving contributions from the community, so thanks for stopping by! There are many ways to contribute to this project: submitting bug reports, improving documentation, submitting feature requests, reviewing new submissions, or contributing code.
 
 This document describes the Embedded Artistry development process. Following these guidelines shows that you respect the time and effort of the developers managing this project. In return, you will be shown respect in addressing your issue, reviewing your changes, and incorporating your contributions.
 
@@ -18,7 +18,7 @@ This document describes the Embedded Artistry development process. Following the
 
 ## Code of Conduct
 
-By participating in this project, you agree to abide by the Embedded Artistry [Code of Conduct](CODE_OF_CONDUCT.md). We expect all contributors to follow the [Code of Conduct](CODE_OF_CONDUCT.md) and to treat fellow humans with respect.
+By participating in this project, you agree to abide by the Embedded Artistry [Code of Conduct](CODE_OF_CONDUCT.md). All contributors will follow the [Code of Conduct](CODE_OF_CONDUCT.md) and treat fellow humans with respect.
 
 ## Important Resources
 
@@ -60,7 +60,7 @@ Please see our [Open Source Contribution Guide](https://embeddedartistry.com/fie
 
 ## Commit Guidelines
 
-Please follow the [source control commit guidelines](https://embeddedartistry.com/fieldatlas/source-control-commit-guidelines/) documented on our website.
+Our [source control commit guidelines](https://embeddedartistry.com/fieldatlas/source-control-commit-guidelines/) are documented on our website.
 
 ## Embedded Artistry GitHub Process
 

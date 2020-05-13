@@ -135,7 +135,7 @@ Provide any instructions or contact information for users who need to get furthe
 
 # Contributing
 
-Provide details about how people can contribute to your project. If you have a contributing guide, mention it here. e.g.:
+Provide details about how people can contribute to your project. If you have a contributing guide, mention it here. For example:
 
 We encourage public contributions! Please review [CONTRIBUTING.md](docs/CONTRIBUTING.md) for details on our code of conduct and development process.
 
