@@ -96,7 +96,7 @@ SUBMODULE_URLS=("git@github.com:embeddedartistry/meson-buildsystem.git")
 cp -r $CORE_FILES $DEST_DIR
 mkdir -p $DEST_DIR/subprojects
 cp subprojects/*.wrap $DEST_DIR/subprojects
-rm $DEST_DIR/tools/deploy_skeleton.sh
+rm $DEST_DIR/tools/deploy_skeleton.sh $DEST_DIR/tools/download_and_deploy.sh
 if [ $USE_GIT == 1 ]; then
 	cp -r $GIT_FILES $DEST_DIR
 fi
