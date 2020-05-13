@@ -24,7 +24,7 @@ else
 	SED="sed -i"
 fi
 
-while getopts "aplrhsn:" opt; do
+while getopts "aplghsr:" opt; do
   case $opt in
   	a) USE_ADR=1
 	;;
