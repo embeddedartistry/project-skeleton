@@ -45,6 +45,7 @@ pipeline
 						unhealthy: 10,
 						aggregatingResults: true,
 						referenceJobName: 'ea-nightly/project-skeleton/master',
+						sourceDirectory: 'buildresults/',
 						filters: [
 							excludeFile('subprojects/*')
 						],
@@ -65,11 +66,11 @@ pipeline
 				}
 			}
 		}
-		stage('Build for GCC-7')
+		stage('Build for GCC-9')
 		{
 			steps
 			{
-				sh 'make NATIVE=gcc-7 BUILDRESULTS=buildresults/gcc-7'
+				sh 'make NATIVE=gcc-9 BUILDRESULTS=buildresults/gcc-9'
 			}
 			post
 			{
@@ -80,6 +81,7 @@ pipeline
 						unhealthy: 10,
 						aggregatingResults: true,
 						referenceJobName: 'ea-nightly/project-skeleton/master',
+						sourceDirectory: 'buildresults/gcc-9',
 						filters: [
 							excludeFile('subprojects/*')
 						],
@@ -94,7 +96,7 @@ pipeline
 							[threshold: 20, type: 'TOTAL', unstable: false]
 						],
 						tools: [
-							gcc(),
+							gcc(id('gcc-9')),
 						]
 					)
 				}
@@ -115,6 +117,7 @@ pipeline
 						unhealthy: 10,
 						aggregatingResults: true,
 						referenceJobName: 'ea-nightly/project-skeleton/master',
+						sourceDirectory: 'buildresults/gcc-8/',
 						filters: [
 							excludeFile('subprojects/*')
 						],
@@ -129,17 +132,17 @@ pipeline
 							[threshold: 20, type: 'TOTAL', unstable: false]
 						],
 						tools: [
-							gcc(),
+							gcc(id('gcc-8'), name('gcc-8')),
 						]
 					)
 				}
 			}
 		}
-		stage('Build for GCC-9')
+		stage('Build for GCC-7')
 		{
 			steps
 			{
-				sh 'make NATIVE=gcc-9 BUILDRESULTS=buildresults/gcc-9'
+				sh 'make NATIVE=gcc-7 BUILDRESULTS=buildresults/gcc-7'
 			}
 			post
 			{
@@ -150,6 +153,7 @@ pipeline
 						unhealthy: 10,
 						aggregatingResults: true,
 						referenceJobName: 'ea-nightly/project-skeleton/master',
+						sourceDirectory: 'buildresults/gcc-7',
 						filters: [
 							excludeFile('subprojects/*')
 						],
@@ -164,7 +168,7 @@ pipeline
 							[threshold: 20, type: 'TOTAL', unstable: false]
 						],
 						tools: [
-							gcc(),
+							gcc(id('gcc-7'), name('gcc-7')),
 						]
 					)
 				}
@@ -185,6 +189,7 @@ pipeline
 						unhealthy: 10,
 						aggregatingResults: true,
 						referenceJobName: 'ea-nightly/project-skeleton/master',
+						sourceDirectory: 'buildresults/arm',
 						filters: [
 							excludeFile('subprojects/*')
 						],
@@ -199,7 +204,7 @@ pipeline
 							[threshold: 20, type: 'TOTAL', unstable: false]
 						],
 						tools: [
-							gcc(),
+							gcc(id('gcc-arm'), name('gcc-arm')),
 						]
 					)
 				}
