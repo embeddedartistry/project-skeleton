@@ -32,12 +32,12 @@ while getopts "aplrhsn:" opt; do
 	;;
 	l) COPY_LICENSE=1
 	;;
-	r) USE_GIT=0
+	g) USE_GIT=0
 	   USE_SUBMODULES=0
 	;;
 	s) USE_SUBMODULES=0
 	;;
-	n) REPLACE_NAME="$OPTARG"
+	r) REPLACE_NAME="$OPTARG"
 	;;
 	h) # Help
 		echo "Usage: deploy_skeleton.sh [optional ags] dest_dir"
@@ -45,8 +45,8 @@ while getopts "aplrhsn:" opt; do
 		echo "	-a: initialize destination to use adr-tools"
 		echo "  -p: initialize destination to use pottery"
 		echo "  -l: copy the license file"
-		echo "  -n <name>: Replace template project/app name values with specified name"
-		echo "	-r: Assume non-git environment. Installs submodule files directly."
+		echo "  -r <name>: Replace template project/app name values with specified name"
+		echo "	-g: Assume non-git environment. Installs submodule files directly."
 		echo "	-s: Don't use submodules, and copy files directly"
 		exit 0
 	;;
