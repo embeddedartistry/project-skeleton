@@ -39,12 +39,68 @@ pipeline
 			{
 				sh 'make'
 			}
+			post
+			{
+				always
+				{
+					recordIssues(
+						healthy: 5,
+						unhealthy: 10,
+						aggregatingResults: true,
+						referenceJobName: 'ea-nightly/project-skeleton/master',
+						filters: [
+							excludeFile('subprojects/*')
+						],
+						qualityGates: [
+							// 3 new issue: unstable
+							[threshold: 3, type: 'DELTA', unstable: true],
+							// 5 new issues: failed build
+							[threshold: 5, type: 'DELTA', unstable: false],
+							// 10 total issues: unstable
+							[threshold: 10, type: 'TOTAL', unstable: true],
+							// 20 total issues: fail
+							[threshold: 20, type: 'TOTAL', unstable: false]
+						],
+						tools: [
+							clang(),
+						]
+					)
+				}
+			}
 		}
 		stage('Build for GCC-7')
 		{
 			steps
 			{
 				sh 'make NATIVE=gcc-7 BUILDRESULTS=buildresults/gcc-7'
+			}
+			post
+			{
+				always
+				{
+					recordIssues(
+						healthy: 5,
+						unhealthy: 10,
+						aggregatingResults: true,
+						referenceJobName: 'ea-nightly/project-skeleton/master',
+						filters: [
+							excludeFile('subprojects/*')
+						],
+						qualityGates: [
+							// 3 new issue: unstable
+							[threshold: 3, type: 'DELTA', unstable: true],
+							// 5 new issues: failed build
+							[threshold: 5, type: 'DELTA', unstable: false],
+							// 10 total issues: unstable
+							[threshold: 10, type: 'TOTAL', unstable: true],
+							// 20 total issues: fail
+							[threshold: 20, type: 'TOTAL', unstable: false]
+						],
+						tools: [
+							gcc(),
+						]
+					)
+				}
 			}
 		}
 		stage('Build for GCC-8')
@@ -53,6 +109,34 @@ pipeline
 			{
 				sh 'make NATIVE=gcc-8 BUILDRESULTS=buildresults/gcc-8'
 			}
+			post
+			{
+				always
+				{
+					recordIssues(
+						healthy: 5,
+						unhealthy: 10,
+						aggregatingResults: true,
+						referenceJobName: 'ea-nightly/project-skeleton/master',
+						filters: [
+							excludeFile('subprojects/*')
+						],
+						qualityGates: [
+							// 3 new issue: unstable
+							[threshold: 3, type: 'DELTA', unstable: true],
+							// 5 new issues: failed build
+							[threshold: 5, type: 'DELTA', unstable: false],
+							// 10 total issues: unstable
+							[threshold: 10, type: 'TOTAL', unstable: true],
+							// 20 total issues: fail
+							[threshold: 20, type: 'TOTAL', unstable: false]
+						],
+						tools: [
+							gcc(),
+						]
+					)
+				}
+			}
 		}
 		stage('Build for GCC-9')
 		{
@@ -60,12 +144,68 @@ pipeline
 			{
 				sh 'make NATIVE=gcc-9 BUILDRESULTS=buildresults/gcc-9'
 			}
+			post
+			{
+				always
+				{
+					recordIssues(
+						healthy: 5,
+						unhealthy: 10,
+						aggregatingResults: true,
+						referenceJobName: 'ea-nightly/project-skeleton/master',
+						filters: [
+							excludeFile('subprojects/*')
+						],
+						qualityGates: [
+							// 3 new issue: unstable
+							[threshold: 3, type: 'DELTA', unstable: true],
+							// 5 new issues: failed build
+							[threshold: 5, type: 'DELTA', unstable: false],
+							// 10 total issues: unstable
+							[threshold: 10, type: 'TOTAL', unstable: true],
+							// 20 total issues: fail
+							[threshold: 20, type: 'TOTAL', unstable: false]
+						],
+						tools: [
+							gcc(),
+						]
+					)
+				}
+			}
 		}
 		stage('Cross compile for ARM')
 		{
 			steps
 			{
 				sh 'make CROSS=arm:cortex-m4_hardfloat:libc BUILDRESULTS=buildresults/arm'
+			}
+			post
+			{
+				always
+				{
+					recordIssues(
+						healthy: 5,
+						unhealthy: 10,
+						aggregatingResults: true,
+						referenceJobName: 'ea-nightly/project-skeleton/master',
+						filters: [
+							excludeFile('subprojects/*')
+						],
+						qualityGates: [
+							// 3 new issue: unstable
+							[threshold: 3, type: 'DELTA', unstable: true],
+							// 5 new issues: failed build
+							[threshold: 5, type: 'DELTA', unstable: false],
+							// 10 total issues: unstable
+							[threshold: 10, type: 'TOTAL', unstable: true],
+							// 20 total issues: fail
+							[threshold: 20, type: 'TOTAL', unstable: false]
+						],
+						tools: [
+							gcc(),
+						]
+					)
+				}
 			}
 		}
 		stage('Test')
@@ -95,6 +235,36 @@ pipeline
 			{
 				sh 'make cppcheck-xml'
 			}
+			post
+			{
+				always
+				{
+					recordIssues(
+						healthy: 5,
+						unhealthy: 10,
+						aggregatingResults: true,
+						referenceJobName: 'ea-nightly/project-skeleton/master',
+						filters: [
+							excludeFile('subprojects/*')
+						],
+						qualityGates: [
+							// 3 new issue: unstable
+							[threshold: 3, type: 'DELTA', unstable: true],
+							// 5 new issues: failed build
+							[threshold: 5, type: 'DELTA', unstable: false],
+							// 10 total issues: unstable
+							[threshold: 10, type: 'TOTAL', unstable: true],
+							// 20 total issues: fail
+							[threshold: 20, type: 'TOTAL', unstable: false]
+						],
+						tools: [
+							cppCheck(
+								pattern: 'buildresults/**/cppcheck.xml',
+							),
+						]
+					)
+				}
+			}
 		}
 		stage('Clang Tidy')
 		{
@@ -102,12 +272,68 @@ pipeline
 			{
 				sh 'make tidy'
 			}
+			post
+			{
+				always
+				{
+					recordIssues(
+						healthy: 5,
+						unhealthy: 10,
+						aggregatingResults: true,
+						referenceJobName: 'ea-nightly/project-skeleton/master',
+						filters: [
+							excludeFile('subprojects/*')
+						],
+						qualityGates: [
+							// 3 new issue: unstable
+							[threshold: 3, type: 'DELTA', unstable: true],
+							// 5 new issues: failed build
+							[threshold: 5, type: 'DELTA', unstable: false],
+							// 10 total issues: unstable
+							[threshold: 10, type: 'TOTAL', unstable: true],
+							// 20 total issues: fail
+							[threshold: 20, type: 'TOTAL', unstable: false]
+						],
+						tools: [
+							clangTidy(),
+						]
+					)
+				}
+			}
 		}
 		stage('Clang Analyzer')
 		{
 			steps
 			{
 				sh 'make scan-build'
+			}
+			post
+			{
+				always
+				{
+					recordIssues(
+						healthy: 5,
+						unhealthy: 10,
+						aggregatingResults: true,
+						referenceJobName: 'ea-nightly/project-skeleton/master',
+						filters: [
+							excludeFile('subprojects/*')
+						],
+						qualityGates: [
+							// 3 new issue: unstable
+							[threshold: 3, type: 'DELTA', unstable: true],
+							// 5 new issues: failed build
+							[threshold: 5, type: 'DELTA', unstable: false],
+							// 10 total issues: unstable
+							[threshold: 10, type: 'TOTAL', unstable: true],
+							// 20 total issues: fail
+							[threshold: 20, type: 'TOTAL', unstable: false]
+						],
+						tools: [
+							clangAnalyzer(),
+						]
+					)
+				}
 			}
 		}
 		stage('sloccount')
@@ -152,13 +378,6 @@ pipeline
 				sh 'make docs'
 			}
 		}
-		stage('Generate Release Package')
-		{
-			steps
-			{
-				sh 'make package'
-			}
-		}
 	}
 	post
 	{
@@ -168,10 +387,10 @@ pipeline
 			recordIssues(
 				healthy: 5,
 				unhealthy: 10,
+				aggregatingResults: true,
 				referenceJobName: 'ea-nightly/project-skeleton/master',
-				sourceDirectory: '.',
 				filters: [
-					excludeFile('subprojects/**')
+					excludeFile('subprojects/*')
 				],
 				qualityGates: [
 					// 3 new issue: unstable
@@ -184,19 +403,12 @@ pipeline
 					[threshold: 20, type: 'TOTAL', unstable: false]
 				],
 				tools: [
-					clang(),
-					gcc(),
-					clangAnalyzer(),
-					clangTidy(),
 					taskScanner(
 						excludePattern: 'buildresults/**, subprojects/**, build/**',
 						includePattern: '**/*.c, **/*.cpp, **/*.h, **/*.hpp, **/*.sh, **/*.build',
 						normalTags: 'TODO, to do, WIP',
 						highTags: 'FIXME, FIX',
 						ignoreCase: true,
-					),
-					cppCheck(
-						pattern: 'buildresults/**/cppcheck.xml',
 					),
 				]
 			)
