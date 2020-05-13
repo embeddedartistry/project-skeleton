@@ -99,7 +99,7 @@ pipeline
 							[threshold: 20, type: 'TOTAL', unstable: false]
 						],
 						tools: [
-							gcc(id('gcc-9')),
+							gcc(id:'gcc-9', name: 'gcc-9'),
 						]
 					)
 				}
@@ -135,7 +135,7 @@ pipeline
 							[threshold: 20, type: 'TOTAL', unstable: false]
 						],
 						tools: [
-							gcc(id('gcc-8'), name('gcc-8')),
+							gcc(id: 'gcc-8', name: 'gcc-8'),
 						]
 					)
 				}
@@ -171,7 +171,7 @@ pipeline
 							[threshold: 20, type: 'TOTAL', unstable: false]
 						],
 						tools: [
-							gcc(id('gcc-7'), name('gcc-7')),
+							gcc(id: 'gcc-7', name: 'gcc-7'),
 						]
 					)
 				}
@@ -207,7 +207,7 @@ pipeline
 							[threshold: 20, type: 'TOTAL', unstable: false]
 						],
 						tools: [
-							gcc(id('gcc-arm'), name('gcc-arm')),
+							gcc(id: 'gcc-arm', name: 'gcc-arm'),
 						]
 					)
 				}
