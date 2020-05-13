@@ -151,7 +151,7 @@ Provide links to other relevant documentation here
 
 Copyright (c) 2020 Embedded Artistry LLC
 
-This project is licensed under the MIT License - see [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
 
 **[Back to top](#table-of-contents)**
 
