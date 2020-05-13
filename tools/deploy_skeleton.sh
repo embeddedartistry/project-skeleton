@@ -10,11 +10,17 @@
 set -ex
 PS4='${LINENO}: '
 
+USE_ADR=0
+USE_POTTERY=0
 USE_GIT=1
 USE_SUBMODULES=1
 
-while getopts "rhs" opt; do
+while getopts "aprhs" opt; do
   case $opt in
+  	a) USE_ADR=1
+	;;
+	p) USE_POTTERY=1
+	;;
 	r) USE_GIT=0
 	   USE_SUBMODULES=0
 	;;
@@ -23,6 +29,8 @@ while getopts "rhs" opt; do
 	h) # Help
 		echo "Usage: deploy_skeleton.sh [optional ags] dest_dir"
 		echo "Optional args:"
+		echo "	-a: initialize destination to use adr-tools"
+		echo "  -p: initialize destination to use pottery"
 		echo "	-r: Assume non-git environment. Installs submodule files directly."
 		echo "	-s: Don't use submodules, and copy files directly"
 		exit 0
@@ -100,6 +108,21 @@ if [ $USE_SUBMODULES == 1 ]; then
 else
 	# Remove any residual git files from submodule directories
 	find ${SUBMODULE_DIRS[@]} -name ".git*" -exec rm -rf {} \;
+fi
+
+# Initialize ADR
+if [ $USE_ADR == 1 ]; then
+	adr init docs/
+	git add --all
+	git commit -m "Initialize adr-tools."
+fi
+
+# Initialize pottery
+if [ $USE_POTTERY == 1 ]; then
+	pottery init
+	pottery note "Initial creation of project repository"
+	git add --all
+	git commit -m "Initialize pottery and document repository creation."
 fi
 
 # Push all changes to the server
