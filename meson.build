@@ -136,12 +136,12 @@ app_include = meson.build_root() / 'src/app:@0@'
 lib_include = meson.build_root() / 'src/lib:@0@'
 
 host_pkg_files = [
-	build_root_include.format('doc'),
+	build_root_include.format('docs'),
 	app_include.format('APP')
 ]
 
 native_pkg_files = [
-	build_root_include.format('doc'),
+	build_root_include.format('docs'),
 	app_include.format('APP_native')
 ]
 
