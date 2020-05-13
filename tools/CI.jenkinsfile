@@ -169,8 +169,9 @@ pipeline
 				healthy: 5,
 				unhealthy: 10,
 				referenceJobName: 'ea-nightly/project-skeleton/master',
+				sourceDirectory: '.',
 				filters: [
-					excludeFile: 'subprojects/**'
+					excludeFile('subprojects/**')
 				],
 				qualityGates: [
 					// 3 new issue: unstable
