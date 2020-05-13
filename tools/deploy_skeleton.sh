@@ -7,8 +7,8 @@
 # There is a required positional argument: the destination directory to use for installing files.
 
 ## Uncomment for debugging
-#set -ex
-#PS4='${LINENO}: '
+set -ex
+PS4='${LINENO}: '
 
 REPLACE_NAME=
 USE_ADR=0
