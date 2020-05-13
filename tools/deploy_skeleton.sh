@@ -78,7 +78,7 @@ if [ ! -d "$DEST_DIR" ]; then
 	if [ -d "$STARTING_DIR/$DEST_DIR" ]; then
 		DEST_DIR=$STARTING_DIR/$DEST_DIR
 	else
-		echo "Destination directory cannot be found. Does it exist?"
+		echo "Destination directory $DEST_DIR cannot be found. Does it exist?"
 		exit 1
 	fi
 fi
