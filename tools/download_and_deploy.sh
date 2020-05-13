@@ -1,6 +1,8 @@
 #!/bin/bash
 # This script forwards all arguments to the deploy_skeleton.sh script
 # The directory supplied to the script *must* be an absolute path!
+#
+# Note that public updates must be made to https://gist.github.com/phillipjohnston/bb95f19d156007f99be4c10c1efdf694
 
 cd /tmp
 git clone git@github.com:embeddedartistry/project-skeleton.git --recursive
