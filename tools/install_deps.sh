@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# This script takes one optional argument. If "update" is supplied, dependencies will be
+# updated instead of installed.
 
 UPDATE=0
 PIP_UPDATE=
@@ -29,7 +32,7 @@ if [ "$(uname)" == "Darwin" ]; then
 		if [ -z "$(command -v brew)" ]; then
 			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 		fi
-
+		# Needed for GCC compiler versions
 		brew tap homebrew/cask-versions
 	fi
 
@@ -37,7 +40,6 @@ if [ "$(uname)" == "Darwin" ]; then
 	pip3 install ${PIP3_PACKAGES[@]} $(PIP_UPDATE)
 else
 	# WSL/Linux Case
-
 	if [ $UPDATE == 0 ]; then
 		# Needed for GCC versions
 		sudo add-apt-repository ppa:ubuntu-toolchain-r/test
@@ -45,5 +47,6 @@ else
 
 	sudo apt-get update
 	sudo apt ${APT_COMMAND} ${APT_PACKAGES[@]}
+	# Install pip3 dependencies globally, not just for the current user
 	sudo -H pip3 install ${PIP3_PACKAGES[@]} ${PIP_UPDATE}
 fi
