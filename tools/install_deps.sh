@@ -20,9 +20,9 @@ UPDATE=0
 PIP_UPDATE=
 BREW_COMMAND="install"
 APT_COMMAND="install"
-TOOL_SUDO=sudo
+TOOLS_SUDO=sudo
 if [ $TOOL_DISABLE_SUDO == 1 ]; then
-	TOOL_SUDO=
+	TOOLS_SUDO=
 fi
 
 # Packages to Install
