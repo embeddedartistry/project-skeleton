@@ -5,7 +5,7 @@
 # Note that public updates must be made to https://gist.github.com/phillipjohnston/bb95f19d156007f99be4c10c1efdf694
 
 cd /tmp
-git clone git@github.com:embeddedartistry/project-skeleton.git --recursive
+git clone git@github.com:embeddedartistry/project-skeleton.git --recursive --depth 1
 cd project-skeleton
 bash tools/deploy_skeleton.sh $@
 cd ../
