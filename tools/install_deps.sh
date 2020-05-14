@@ -1,7 +1,7 @@
 #!/bin/bash
 
 UPDATE=0
-PIP_UPGRADE=
+PIP_UPDATE=
 BREW_COMMAND="install"
 APT_COMMAND="install"
 BREW_PACKAGES=("python3" "ninja" "wget" "gcc@7" "gcc@8" "gcc@9" "llvm" "adr-tools" "cmocka" "pkg-config")
@@ -11,7 +11,7 @@ APT_PACKAGES=("python3" "python3-pip" "ninja-build" "wget" "build-essential" "cl
 APT_PACKAGES+=("clang-tools" "libcmocka0" "libcmocka-dev" "pkg-config" "vale" "sloccount")
 APT_PACKAGES+=("doxygen" "cppcheck" "gcovr" "lcov" "clang-format" "clang-tidy" "clang-tools")
 APT_PACKAGES+=("gcc-7" "g++-7" "gcc-8" "g++-8" "gcc-9" "g++-9")
-PIP3_PACKAGES=("meson" "lizard" )
+PIP3_PACKAGES=("meson" "lizard")
 
 if [ "$1" == "update" ]; then
 	UPDATE=1
@@ -41,7 +41,6 @@ else
 	if [ $UPDATE == 0 ]; then
 		# Needed for GCC versions
 		sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-	else
 	fi
 
 	sudo apt-get update
