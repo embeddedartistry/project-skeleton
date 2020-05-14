@@ -40,13 +40,8 @@ if [ "$(uname)" == "Darwin" ]; then
 	pip3 install ${PIP3_PACKAGES[@]} $(PIP_UPDATE)
 else
 	# WSL/Linux Case
-	if [ $UPDATE == 0 ]; then
-		# Needed for GCC versions
-		sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-	fi
-
 	sudo apt-get update
-	sudo apt ${APT_COMMAND} ${APT_PACKAGES[@]}
+	sudo apt ${APT_COMMAND} -y ${APT_PACKAGES[@]}
 	# Install pip3 dependencies globally, not just for the current user
 	sudo -H pip3 install ${PIP3_PACKAGES[@]} ${PIP_UPDATE}
 fi
