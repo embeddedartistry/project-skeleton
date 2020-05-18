@@ -3,6 +3,8 @@
 TOOLCHAIN_INSTALL_DIR=${TOOLCHAIN_INSTALL_DIR:-/usr/local/toolchains}
 TOOL_INSTALL_DIR=${TOOL_INSTALL_DIR:-/usr/local/tools}
 
+DEPLOY_URL="https://gist.githubusercontent.com/phillipjohnston/bb95f19d156007f99be4c10c1efdf694/raw/c123584bafe004c9a2304ed2207ae929e3093856/download_and_deploy.sh"
+
 # For OS X, we need .bash_profile to invoke `.bashrc`.
 # Append to file in case it already exists
 if [ "$(uname)" == "Darwin" ]; then
@@ -43,7 +45,7 @@ function deploy_skeleton()
 {
 	INITIAL_DIR=\$(pwd)
 	cd /tmp
-	wget https://gist.githubusercontent.com/phillipjohnston/bb95f19d156007f99be4c10c1efdf694/raw/df1c8453800fee12715fa5dc127e777db14bd116/download_and_deploy.sh
+	wget $DEPLOY_URL
 	bash download_and_deploy.sh \$@
 	rm download_and_deploy.sh
 	cd \$INITIAL_DIR
