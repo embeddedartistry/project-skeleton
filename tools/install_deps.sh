@@ -33,7 +33,7 @@ APT_PACKAGES=("python3" "python3-pip" "ninja-build" "wget" "build-essential" "cl
 APT_PACKAGES+=("clang-tools" "libcmocka0" "libcmocka-dev" "pkg-config" "sloccount" "curl")
 APT_PACKAGES+=("doxygen" "cppcheck" "gcovr" "lcov" "clang-format" "clang-tidy" "clang-tools")
 APT_PACKAGES+=("gcc-7" "g++-7" "gcc-8" "g++-8" "gcc-9" "g++-9")
-PIP3_PACKAGES=("meson" "lizard")
+PIP3_PACKAGES=("meson" "lizard" "thefuck")
 
 if [ "$1" == "update" ]; then
 	UPDATE=1
