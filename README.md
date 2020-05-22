@@ -1,6 +1,4 @@
-# project-skeleton
-
-A C &amp; C++ project skeleton for new Embedded Artistry projects.
+# Project Title
 
 Provide an introductory paragraph, describing:
 
@@ -11,21 +9,24 @@ Provide an introductory paragraph, describing:
 ## Table of Contents
 
 1. [About the Project](#about-the-project)
-1. [Project Status](#project-status)
-1. [Getting Started](#getting-started)
-    1. [Dependencies](#dependencies)
-    1. [Building](#building)
-    1. [Installation](#installation)
-    1. [Usage](#usage)
-1. [Release Process](#release-process)
-    1. [Versioning](#versioning)
-    1. [Payload](#payload)
-1. [How to Get Help](#how-to-get-help)
-1. [Further Reading](#further-reading)
-1. [Contributing](#contributing)
-1. [License](#license)
-1. [Authors](#authors)
-1. [Acknowledgments](#acknowledgements)
+2. [Project Status](#project-status)
+3. [Getting Started](#getting-started)
+    1. [Requirements](#requirements)
+        1. [git-lfs](#git-lfs)
+        1. [Meson Build System](#meson-build-system)
+    2. [Getting the Source](#getting-the-source)
+    3. [Building](#building)
+        1. [Enabling Link-time Optimization](#enabling-link-time-optimization)
+    4. [Installation](#installation)
+    5. [Usage](#usage)
+4. [Configuration Options](#configuration-options)
+5. [Documentation](#documentation)
+6. [Need Help?](#need-help)
+7. [Contributing](#contributing)
+8. [Further Reading](#further-reading)
+9. [Authors](#authors)
+10. [License](#license)
+11. [Acknowledgments](#acknowledgements)
 
 # About the Project
 
@@ -43,130 +44,249 @@ Show some of your APIs
 
 # Project Status
 
-Show the build status if you have a CI server:
-
-[![Build Status](http://your-server:12345/job/badge/icon)](http://your-server:12345/job/http://your-server:12345/job/badge/icon/)
-
 Describe the current release and any notes about the current state of the project. Examples: currently compiles on your host machine, but is not cross-compiling for ARM, APIs are not set, feature not implemented, etc.
 
 **[Back to top](#table-of-contents)**
 
-# Getting Started
+## Getting Started
 
-This section should provide instructions for other developers to
+### Requirements
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+This project uses [Embedded Artistry's standard Meson build system](https://embeddedartistry.com/fieldatlas/embedded-artistrys-standardized-meson-build-system/), and dependencies are described in detail [on our website](https://embeddedartistry.com/fieldatlas/embedded-artistrys-standardized-meson-build-system/).
 
-## Dependencies
+At a minimum you will need:
 
-Describe what software and libraries you will need to install in order to build and use this project. Provide details on how to resolve these dependencies.
+* [`git-lfs`](https://git-lfs.github.com), which is used to store binary files in this repository
+* [Meson](#meson-build-system) is the build system
+* Some kind of compiler for your target system.
+    - This repository has been tested with:
+        - gcc-7, gcc-8, gcc-9
+        - arm-none-eabi-gcc
+        - Apple clang
+        - Mainline clang
 
-Remember: `git-lfs` is a dependency that developers will need to resolve before they can get started with a repository using LFS.
+#### git-lfs
 
-```
-Examples should be included
-```
+This project stores some files using [`git-lfs`](https://git-lfs.github.com).
 
-## Getting the Source
-
-Include a link to your GitHub repository (you have no idea how people will find your code), and also a summary of how to clone.
-
-This project is [hosted on GitHub](https://github.com/embeddedartistry/embedded-resources). You can clone this project directly using this command:
-
-```
-git clone git@github.com:embeddedartistry/embedded-resources.git
-```
-
-## Building
-
-Instructions for how to build your project
+To install `git-lfs` on Linux:
 
 ```
-Examples should be included
+sudo apt install git-lfs
 ```
 
-## Running Tests
-
-Describe how to run unit tests for your project.
+To install `git-lfs` on OS X:
 
 ```
-Examples should be included
+brew install git-lfs
 ```
 
-### Other Tests
+Additional installation instructions can be found on the [`git-lfs` website](https://git-lfs.github.com).
 
-If you have formatting checks, coding style checks, or static analysis tests that must pass before changes will be considered, add a section for those and provide instructions
+#### Meson Build System
 
-## Installation
+The [Meson](https://mesonbuild.com) build system depends on `python3` and `ninja-build`.
 
-Instructions for how to install your project's build artifacts
-
-```
-Examples should be included
-```
-
-## Usage
-
-Instructions for using your project. Ways to run the program, how to include it in another project, etc.
+To install on Linux:
 
 ```
-Examples should be included
+sudo apt-get install python3 python3-pip ninja-build
 ```
 
-If your project provides an API, either provide details for usage in this document or link to the appropriate API reference documents
+To install on OSX:
+
+```
+brew install python3 ninja
+```
+
+Meson can be installed through `pip3`:
+
+```
+pip3 install meson
+```
+
+If you want to install Meson globally on Linux, use:
+
+```
+sudo -H pip3 install meson
+```
 
 **[Back to top](#table-of-contents)**
 
-# Release Process
+### Getting the Source
 
-Talk about the release process. How are releases made? What cadence? How to get new releases?
+This project uses [`git-lfs`](https://git-lfs.github.com), so please install it before cloning. If you cloned prior to installing `git-lfs`, simply run `git lfs pull` after installation.
 
-## Versioning
+This project is hosted on GitHub. You can clone the project directly using this command:
 
-This project uses [Semantic Versioning](http://semver.org/). For a list of available versions, see the [repository tag list](https://github.com/your/project/tags).
+```
+git clone --recursive git@github.com:embeddedartistry/project-skeleton.git
+```
 
-## Payload
+If you don't clone recursively, be sure to run the following command in the repository or your build will fail:
 
-**[Back to top](#table-of-contents)**
-
-# How to Get Help
-
-Provide any instructions or contact information for users who need to get further help with your project.
-
-# Contributing
-
-Provide details about how people can contribute to your project. If you have a contributing guide, mention it here. For example:
-
-We encourage public contributions! Please review [CONTRIBUTING.md](docs/CONTRIBUTING.md) for details on our code of conduct and development process.
+```
+git submodule update --init
+```
 
 **[Back to top](#table-of-contents)**
 
-# Further Reading
+### Building
 
-Provide links to other relevant documentation here
+If Make is installed, the library can be built by issuing the following command:
+
+```
+make
+```
+
+This will build all targets for your current architecture.
+
+You can clean builds using:
+
+```
+make clean
+```
+
+You can eliminate the generated `buildresults` folder using:
+
+```
+make distclean
+```
+
+You can also use  `meson` directly for compiling.
+
+Create a build output folder:
+
+```
+meson buildresults
+```
+
+And build all targets by running
+
+```
+ninja -C buildresults
+```
+
+Cross-compilation is handled using `meson` cross files. Example files are included in the [`build/cross`](build/cross/) folder. You can write your own cross files for your specific processor by defining the toolchain, compilation flags, and linker flags. These settings will be used to compile the project.
+
+Cross-compilation must be configured using the meson command when creating the build output folder. For example:
+
+```
+meson buildresults --cross-file build/cross/gcc_arm_cortex-m4.txt
+```
+
+Following that, you can run `make` (at the project root) or `ninja` to build the project.
+
+Tests will not be cross-compiled. They will only be built for the native platform.
+
+**Full instructions for building the project, using alternate toolchains, and running supporting tooling are documented in [Embedded Artistry's Standardized Meson Build System](https://embeddedartistry.com/fieldatlas/embedded-artistrys-standardized-meson-build-system/) on our website.**
 
 **[Back to top](#table-of-contents)**
 
-# License
+### Enabling Link-time Optimization
 
-Copyright (c) 2020 Embedded Artistry LLC
+Link-time Optimization (LTO) can be enabled during the meson configuration stage by setting the built-in option `b_lto` to `true`:
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+```
+meson buildresults -Db_lto=true
+```
 
-**[Back to top](#table-of-contents)**
-
-# Authors
-
-* **[Phillip Johnston](https://github.com/phillipjohnston)** - *Initial work* - [Embedded Artistry](https://github.com/embeddedartistry)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+This can be combined with other build options.
 
 **[Back to top](#table-of-contents)**
 
-# Acknowledgments
+### Testing
 
-Provide proper credits, shout-outs, and honorable mentions here. Also provide links to relevant repositories, blog posts, or contributors worth mentioning.
+The tests for this library are written with CMocka, which is included as a subproject and does not need to be installed on your system. You can run the tests by issuing the following command:
 
-Give proper credits. This could be a link to any repository which inspired you to build this project, any blog posts or links to people who contributed in this project. If you used external code, link to the original source.
+```
+make test
+```
+
+By default, test results are generated for use by the CI server and are formatted in JUnit XML. The test results XML files can be found in `buildresults/test/`.
 
 **[Back to top](#table-of-contents)**
+
+## Configuration Options
+
+The following meson project options can be set for this library when creating the build results directory with `meson`, or by using `meson configure`:
+
+* `disable-builtins` will tell the compiler not to generate built-in function
+* `disable-stack-protection` will tell the compiler not to insert stack protection calls
+* `disable-rtti` will disable RTTI for C++ projects
+* `disable-exceptions` will disable exceptions for C++ projects
+* `enable-threading` can be used to control threaded targets and libc++ threading support
+* `enable-pedantic`: Turn on `pedantic` warnings
+* `enable-pedantic-error`: Turn on `pedantic` warnings and errors
+* `hide-unimplemented-libc-apis`: Hides the header definitions for functions which are not actually implemented
+* `enable-gnu-extensions` will enable GNU libc extensions that are implemented in this library
+
+The following options can be used to configure `libc++` if used with this project:
+
+* `libcxx-use-compiler-rt`
+* `libcxx-use-llvm-libunwind`
+* `libcxx-thread-library`
+* `libcxx-has-external-thread-api`
+* `libcxx-build-external-thread-api`
+* `libcxx-enable-chrono`
+* `libcxx-enable-filesystem`
+* `libcxx-enable-stdinout`
+* `libcxx-default-newdelete`
+* `libcxx-silent-terminate`
+* `libcxx-monotonic-clock`
+
+Options can be specified using `-D` and the option name:
+
+```
+meson buildresults -Ddisable-builtins=false
+```
+
+The same style works with `meson configure`:
+
+```
+cd buildresults
+meson configure -Ddisable-builtins=false
+```
+
+**[Back to top](#table-of-contents)**
+
+## Documentation
+
+Documentation can be built locally by running the following command:
+
+```
+make docs
+```
+
+Documentation can be found in `buildresults/docs`, and the root page is `index.html`.
+
+**[Back to top](#table-of-contents)**
+
+## Need help?
+
+If you need further assistance or have any questions, please file a GitHub issue or send us an email using the [Embedded Artistry Contact Form](http://embeddedartistry.com/contact).
+
+You can also [reach out on Twitter: mbeddedartistry](https://twitter.com/mbeddedartistry/).
+
+## Contributing
+
+If you are interested in contributing to this project, please read our [contributing guidelines](docs/CONTRIBUTING.md).
+
+## Authors
+
+* **[Phillip Johnston](https://github.com/phillipjohnston)**
+
+## License
+
+Copyright © 2020 Embedded Artistry LLC
+
+See the [LICENSE](LICENSE) file for licensing details.
+
+For other open-source licenses, please see the [Software Inventory](docs/software_inventory.xlsx).
+
+## Acknowledgments
+
+Make any public acknowledgments here
+
+**[Back to top](#table-of-contents)**
+
