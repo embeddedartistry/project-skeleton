@@ -29,6 +29,8 @@ ifneq ($(CROSS),)
 	# Split into two strings, first is arch, second is chip
 	CROSS_2 := $(subst :, ,$(CROSS))
 	INTERNAL_OPTIONS += $(foreach FILE,$(CROSS_2),--cross-file=build/cross/$(FILE).txt)
+	# Use Embedded Artistry libc/libcpp by default for cross-compilation
+	INTERNAL_OPTIONS += --cross-file=build/cross/libc.txt --cross-file=build/cross/libcpp.txt
 endif
 
 ifneq ($(NATIVE),)
@@ -158,6 +160,7 @@ help :
 	@echo "         - For supported chips, see build/cross/"
 	@echo "         - Additional files can be layered by adding additional"
 	@echo "           args separated by ':'"
+	@echo "			NOTE: cross files in this project will use Embedded Artistry libc/libcpp"
 	@echo "    > NATIVE Supply an alternative native toolchain by name."
 	@echo "         - Example: make NATIVE=gcc-9"
 	@echo "         - Additional files can be layered by adding additional"
