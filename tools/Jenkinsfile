@@ -178,7 +178,7 @@ pipeline
 		{
 			steps
 			{
-				sh 'make CROSS=arm:cortex-m4_hardfloat:libc BUILDRESULTS=buildresults/arm'
+				sh 'make CROSS=arm:cortex-m4_hardfloat BUILDRESULTS=buildresults/arm'
 			}
 			post
 			{
