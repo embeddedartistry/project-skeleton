@@ -111,12 +111,6 @@ fi
 ## The following operations all take place in the destination directory
 cd $DEST_DIR
 
-# Commit Files
-if [ $USE_GIT == 1 ]; then
-	git add --all
-	git commit -m "Initial commit of project skeleton files."
-fi
-
 # Initialize Submodules
 if [ $USE_SUBMODULES == 1 ]; then
 	for index in ${!SUBMODULE_URLS[@]}; do
@@ -126,6 +120,12 @@ if [ $USE_SUBMODULES == 1 ]; then
 else
 	# Remove any residual git files from submodule directories
 	find ${SUBMODULE_DIRS[@]} -name ".git*" -exec rm -rf {} \;
+fi
+
+# Commit Files
+if [ $USE_GIT == 1 ]; then
+	git add --all
+	git commit -m "Initial commit of project skeleton files."
 fi
 
 # Replace placeholder names
@@ -140,19 +140,23 @@ if [ ! -z $REPLACE_NAME ]; then
 	fi
 fi
 
-# Initialize ADR
+# Initialize adr-tools
 if [ $USE_ADR == 1 ]; then
 	adr init docs/
-	git add --all
-	git commit -m "Initialize adr-tools."
+	if [ $USE_GIT == 1 ]; then
+		git add --all
+		git commit -m "Initialize adr-tools."
+	fi
 fi
 
 # Initialize pottery
 if [ $USE_POTTERY == 1 ]; then
 	pottery init
 	pottery note "Initial creation of project repository"
-	git add --all
-	git commit -m "Initialize pottery and document repository creation."
+	if [ $USE_GIT == 1 ]; then
+		git add --all
+		git commit -m "Initialize pottery and document repository creation."
+	fi
 fi
 
 # Push all changes to the server
@@ -160,7 +164,7 @@ if [ $USE_GIT == 1 ]; then
 	git push || echo "WARNING: git push failed: check repository."
 fi
 
-if [ -z $REPLACE_NAME ]; then
+if [[ -z $REPLACE_NAME ]]; then
 	echo "NOTE: Replace the placeholder project name in meson.build"
 	echo "NOTE: Replace the placeholder application name in src/app/meson.build"
 	echo "NOTE: Replace the placeholder test application name in test/meson.build"
