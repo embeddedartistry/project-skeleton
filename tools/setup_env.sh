@@ -59,4 +59,9 @@ function init_repo()
 	cd \$(basename "\$URL" .git)
 	deploy_skeleton -a -p \${@} `pwd`
 }
+
+# Skeleton Update Aliases
+alias sm_update_build="cd build; git checkout master; git pull; cd ../"
+alias sm_update_commit_build="sm_update_build; git add build; git commit -m 'Update build submodule to use the latest changes.'"
+
 ENDOFBLOCK
