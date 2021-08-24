@@ -169,17 +169,25 @@ ninja -C buildresults
 
 Cross-compilation is handled using `meson` cross files. Example files are included in the [`build/cross`](build/cross/) folder. You can write your own cross files for your specific processor by defining the toolchain, compilation flags, and linker flags. These settings will be used to compile the project.
 
-Cross-compilation must be configured using the meson command when creating the build output folder. For example:
+Cross-compilation must be configured using the meson command when creating the build output folder. For files stored within `build/cross`, we provide a Makefile `CROSS` to simplify the process. This variable will automatically supply the proper Meson argument, `build/cross/` prefix, and `.txt` filename extension.
+
+You can use a single file, or you can layer multiple files by separating the names with a colon.
 
 ```
-meson buildresults --cross-file build/cross/gcc_arm_cortex-m4.txt
+make CROSS=arm:cortex-m4_hardfloat
 ```
 
-Following that, you can run `make` (at the project root) or `ninja` to build the project.
+You can also do this manually with the Meson interface. Note, however, that you will need to include a special `--cross-file=build/cross/embvm.txt` cross file to ensure that the required Embedded VM settings are applied.
 
-Tests will not be cross-compiled. They will only be built for the native platform.
+```
+meson buildresults --cross-file build/cross/arm.txt --cross-file build/cross/cortex-m4_hardfloat.txt --cross-file=build/cross/embvm.txt
+```
 
-**Full instructions for building the project, using alternate toolchains, and running supporting tooling are documented in [Embedded Artistry's Standardized Meson Build System](https://embeddedartistry.com/fieldatlas/embedded-artistrys-standardized-meson-build-system/) on our website.**
+Following that, you can run `make` (at the project root) or `ninja -C buildresults` to build the project.
+
+> **Note:** Tests will not be cross-compiled. They will only be built for the native platform.
+
+**Full instructions for working with the build system, including topics like using alternate toolchains and running supporting tooling, are documented in [Embedded Artistry's Standardized Meson Build System](https://embeddedartistry.com/fieldatlas/embedded-artistrys-standardized-meson-build-system/) on our website.**
 
 **[Back to top](#table-of-contents)**
 
