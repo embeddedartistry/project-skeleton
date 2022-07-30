@@ -1,0 +1,4 @@
+[wrap-git]
+url = git@github.com:embeddedartistry/libc.git
+revision = master
+clone-recursive = true
