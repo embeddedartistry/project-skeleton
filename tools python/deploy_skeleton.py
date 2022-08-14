@@ -4,7 +4,10 @@ import os
 import subprocess
 import platform
 import shutil
+from turtle import update
 import git 
+from git import Repo 
+
 
 USE_ADR=0
 USE_POTTERY=0
@@ -106,7 +109,7 @@ shutil.rmtree(f"{DEST_DIR}/tools/download_and_deploy.py")
 if (USE_GIT == 1):
     shutil.copytree(GIT_FILES,DEST_DIR)
 if (USE_SUBMODULES==0):
-    repo = git.repo(pwd)
+    repo = git.Repo(pwd)
     output = repo.git.submodule('update','--init','--recursive')
     shutil.copytree(SUBMODULE_DIRS,DEST_DIR)
 if (COPY_LICENSE == 1):
@@ -118,3 +121,21 @@ os.chdir(DEST_DIR)
 
 # Initialize Submodules
 
+if (USE_SUBMODULES==1):
+        repo = git.Repo(SUBMODULE_URLS)
+        output = repo.git.submodule('add')
+        index=Repo.init(SUBMODULE_DIRS).index
+        index.commit("Add submodules from project skeleton. ")
+else :
+    find = f'find {SUBMODULE_DIRS} -name ".git*"'
+    out = subprocess.Popen(findCMD,shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    for file in os.listdir(SUBMODULE_DIRS):
+        if file.endswith(".git*"):
+            shutil.rmtree(SUBMODULE_DIRS)
+if (USE_GIT==1):
+    repo.git.add(all=True )
+    index=Repo.init(SUBMODULE_DIRS).index
+    index.commit("Initial commit of project skeleton files.")
+
+if (REPLACE_NAME !=""):
+    p=subprocess.Popen(f"{SED}")
