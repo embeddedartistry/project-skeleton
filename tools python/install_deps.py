@@ -33,7 +33,11 @@ for o , a in opts :
     if o=="-d":
         TOOLCHAIN_INSTALL_DIR=input("TOOLCHAIN_INSTALL_DIR : ")
     elif o == "-s":
-        
+        TOOL_INSTALL_DIR=input("TOOL_INSTALL_DIR :")
+    elif o =="-r":
+        TOOLCHAIN_DISABLE_SUDO=input("TOOLCHAIN_DISABLE_SUDO :")
+    elif o =="-z":
+        TOOL_DISABLE_SUDO=input("TOOL_DISABLE_SUDO :")
     elif o == "-e":
         UPDATE_ENV=1
     elif o == "-u":
@@ -46,13 +50,18 @@ for o , a in opts :
         print("Usage: install_deps.sh [optional ags]")
         print("Optional args:")
         print("-u: Run an update instead of install")
-        print("  -e: Include environment setup during install process (.bashrc + .bash_profile)")
+        print(" -e: Include environment setup during install process (.bashrc + .bash_profile)")
         exit()
 
     else:
-        print(f"Invalid option {OPTARG}")
+        print(f"Invalid option {args[0]}")
 
 
+if (platform.release() == "Darwin"):
+    if(UPDATE==1):
+        os.system("brew update")
+    else:
+        
 
 
     
