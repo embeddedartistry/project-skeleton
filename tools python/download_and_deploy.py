@@ -1,20 +1,27 @@
 import os 
 import git
 import shutil
+import platform
 
 
 pwd=os.getcwd()
-INITIAL_DIR=pwd
-os.mkdir(r"C:\tmp")
-os.chdir("C:\\tmp")
+initial_dir=pwd
+
+linux_dir="/tmp"
+windows_dir="C://tmp"
+if (platform.system() == "Darwin" or platform.system() == "Linux" ):
+    temporary_dir=linux_dir
+else:
+    temporary_dir=windows_dir
+
+os.mkdir(temporary_dir)
+os.chdir(temporary_dir)
 git.Git().clone("https://github.com/embeddedartistry/project-skeleton","project-skeleton",depth=1,recursive=True) 
-os.chdir(r"C:\tmp\project-skeleton")
-os.chdir(r"C:\tmp\project-skeleton\tools")
-#os.system("bash tools/deploy_skeleton.sh $@")
+os.chdir(f"{temporary_dir}\project-skeleton\tools")
 exec(open('deploy_skeleton.py').read())
-os.chdir("c:")
-shutil.rmtree(r"C:\tmp\project-skeleton")
-os.chdir(f"{INITIAL_DIR}")
+os.chdir(temporary_dir)
+shutil.rmtree(f"{temporary_dir}\project-skeleton")
+os.chdir(f"{initial_dir}")
 
 
 

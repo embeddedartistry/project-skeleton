@@ -9,12 +9,14 @@ import git
 from git import Repo 
 
 
-USE_ADR=0
-USE_POTTERY=0
-COPY_LICENSE=0
-USE_GIT=1
-USE_SUBMODULES=1
-REPLACE_NAME = None
+use_adr=0
+use_pottery=0
+copy_license=0
+use_git=1
+use_submodules=1
+replace_name = None
+check_dir="c:/subprojects"
+
 
 def help():
         print("Usage: deploy_skeleton.sh [optional ags] dest_dir ")
@@ -25,29 +27,33 @@ def help():
         print("-r <name>: Replace template project/app name values with specified name")
         print("-g: Assume non-git environment. Installs submodule files directly.")
         print("-s: Don't use submodules, and copy files directly")
+        print("-k : Check directory ")
         exit () 
 
 if (platform.release() == "Darwin"):   
-    SED="sed -i ''"
+    sed="sed -i ''"
 else:
-    SED="sed -i"
+    sed="sed -i"
 
 try :
-    opts, args = getopt.getopt(sys.argv[1:], "aplghsr:")
+    opts, args = getopt.getopt(sys.argv[1:], "aplghsrk:")
 except:
-    print("Error in the getopts function")
+    print("Error !")
+    help()
 for o , a in opts:
     if o == "-a" :
-        USE_ADR = 1
+        use_adr = 1
     elif o == "-p":
-        USE_POTTERY=1
+        use_pottery=1
     elif o == "-l":
-        COPY_LICENSE=1
+        copy_license=1
     elif o == "-g":
-        USE_GIT=0
-        USE_SUBMODULES=0
+        use_git=0
+        use_submodules=0
     elif o =="-r":
-        REPLACE_NAME=args[0]
+        replace_name=args[0]
+    elif o == "-k":
+        check_dir=input("CHECK_DIRECTORY : ")
     elif o =="-h":
         help()
         
@@ -55,29 +61,26 @@ for o , a in opts:
         print(f"Invalid option {args[0]}")
         help()
 
-#variable=len(opts)
-#for i in range(1,variable) :
-#   del opts[i]
 
-CHECK_DIR="c:/subprojects"
+
 pwd=os.getcwd()
-CHECK_PATH_1= os.path.exists(f"{CHECK_DIR}/Tools")
-if(CHECK_PATH_1==False):
-    CHECK_DIR=os.chdir(f"{CHECK_DIR}")
-    CHECK_PATH_1= os.path.exists(f"{CHECK_DIR}")
-    if(CHECK_PATH_1==False):
+check_path_1= os.path.exists(f"{check_dir}/Tools")
+if(check_path_1==False):
+    check_dir=os.chdir(f"{check_dir}")
+    check_path_1= os.path.exists(f"{check_dir}")
+    if(check_path_1==False):
         print("This script must be run from the project skeleton root or the tools/ directory.")
         exit ()
 
 
-DEST_DIR=args[0]
-DEST_PATH_2= os.path.exists(f"{args[0]}")
-if(DEST_PATH_2==False):
-     DEST_PATH_2= os.path.exists(f"{pwd}/{args[0]}")
-     if(DEST_PATH_2==False):
-        DEST_DIR=f"{pwd}/{args[0]}"
+dest_dir=args[0]
+dest_path_2= os.path.exists(f"{dest_dir}")
+if(dest_path_2==False):
+     dest_path_2= os.path.exists(f"{pwd}/{dest_dir}")
+     if(dest_path_2==False):
+        dest_dir=f"{pwd}/{dest_dir}"
      else:
-        print(f"Destination directory {DEST_DIR} cannot be found. Does it exist?")
+        print(f"Destination directory {dest_dir} cannot be found. Does it exist?")
         exit()
 
 
@@ -85,57 +88,58 @@ if(DEST_PATH_2==False):
 
 
 findCMD = f'find . -name ".DS_Store"'
-out = subprocess.Popen(findCMD,shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+out = subprocess.Popen(findCMD,shell=True,stdin=subprocess.PIPE
+                      ,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 for file in os.listdir("c:"):
         if file.endswith(".DS_Store"):
             shutil.rmtree(file)
 
 
-CORE_FILES="docs src test tools .clang-format .clang-tidy Makefile meson.build meson_options.txt README.md"
-GIT_FILES=".gitattributes .github .gitignore"
+core_files="docs src test tools .clang-format .clang-tidy Makefile meson.build meson_options.txt README.md"
+git_files=".gitattributes .github .gitignore"
 
         
-SUBMODULE_DIRS="build"
-SUBMODULE_URLS="git@github.com:embeddedartistry/meson-buildsystem.git"
+submodule_dirs="build"
+submodule_urls="git@github.com:embeddedartistry/meson-buildsystem.git"
 
 # Copy skeleton files to the destination
 
-shutil.copytree(CORE_FILES,DEST_DIR )
-path = os.path.join(DEST_DIR, f"{CHECK_DIR}") 
+shutil.copytree(core_files,dest_dir)
+path = os.path.join(dest_dir, f"{check_dir}") 
 os.mkdir(path)
-shutil.copytree("subprojects/*.wrap",f"{DEST_DIR}/subprojects" )
-shutil.rmtree(f"{DEST_DIR}/tools/deploy_skeleton.py")
-shutil.rmtree(f"{DEST_DIR}/tools/download_and_deploy.py")
-if (USE_GIT == 1):
-    shutil.copytree(GIT_FILES,DEST_DIR)
-if (USE_SUBMODULES==0):
+shutil.copytree("subprojects/*.wrap",f"{dest_dir}/subprojects" )
+shutil.rmtree(f"{dest_dir}/tools/deploy_skeleton.py")
+shutil.rmtree(f"{dest_dir}/tools/download_and_deploy.py")
+if (use_git == 1):
+    shutil.copytree(git_files,dest_dir)
+if (use_submodules==0):
     repo = git.Repo(pwd)
     output = repo.git.submodule('update','--init','--recursive')
-    shutil.copytree(SUBMODULE_DIRS,DEST_DIR)
-if (COPY_LICENSE == 1):
-    shutil.copytree("LICENSE",DEST_DIR)
+    shutil.copytree(submodule_dirs,dest_dir)
+if (copy_license == 1):
+    shutil.copytree("LICENSE",dest_dir)
 
 ## The following operations all take place in the destination directory
 
-os.chdir(DEST_DIR)
+os.chdir(dest_dir)
 
 # Initialize Submodules
 
-if (USE_SUBMODULES==1):
-        repo = git.Repo(SUBMODULE_URLS)
+if (use_submodules==1):
+        repo = git.Repo(submodule_urls)
         output = repo.git.submodule('add')
-        index=Repo.init(SUBMODULE_DIRS).index
+        index=Repo.init(submodule_dirs).index
         index.commit("Add submodules from project skeleton. ")
 else :
-    find = f'find {SUBMODULE_DIRS} -name ".git*"'
+    find = f'find {submodule_dirs} -name ".git*"'
     out = subprocess.Popen(findCMD,shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    for file in os.listdir(SUBMODULE_DIRS):
+    for file in os.listdir(submodule_dirs):
         if file.endswith(".git*"):
-            shutil.rmtree(SUBMODULE_DIRS)
-if (USE_GIT==1):
+            shutil.rmtree(submodule_dirs)
+if (use_git==1):
     repo.git.add(all=True )
-    index=Repo.init(SUBMODULE_DIRS).index
+    index=Repo.init(submodule_dirs).index
     index.commit("Initial commit of project skeleton files.")
 
-if (REPLACE_NAME !=""):
-    p=subprocess.Popen(f"{SED}")
+if (replace_name !=""):
+    p=subprocess.Popen(f"{sed}")
