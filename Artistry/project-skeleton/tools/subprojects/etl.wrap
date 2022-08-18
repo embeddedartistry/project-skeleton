@@ -1,4 +1,0 @@
-[wrap-git]
-url = git@github.com:ETLCPP/etl.git
-revision = master
-clone-recursive = true
