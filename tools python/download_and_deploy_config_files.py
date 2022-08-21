@@ -1,19 +1,34 @@
 import os 
 import git 
 import shutil
+import platform
 
 pwd=os.getcwd()
-INITIAL_DIR=pwd
-os.mkdir(r"C:\tmp")
-os.chdir("C:\\tmp")
+initial_dir=pwd
+linux_dir="\tmp"
+windows_dir="C://tmp"
+if (platform.system() == "Darwin" or platform.system() == "Linux" ):
 
-git.Git().clone("https://github.com/embeddedartistry/config-files","config-files",depth=1)
-os.chdir("C:\\tmp\\config-files")
-exec(open('copy_config.sh').read())
-os.listdir()
-os.chdir("C:\\tmp")
-shutil.rmtree(r"C:\tmp\config-files")
-os.chdir(f"{INITIAL_DIR}")
+    temporary_dir=linux_dir
+    os.mkdir(temporary_dir)
+    os.chdir(temporary_dir)
+    git.Git().clone("https://github.com/embeddedartistry/config-files","config-files",depth=1)
+    os.chdir(f"{temporary_dir}\config-files")
+    exec(open('copy_config.sh').read())
+    os.chdir(temporary_dir)
+    shutil.rmtree(f"{temporary_dir}\config-files")
+    os.chdir(f"{initial_dir}")
+
+else :
+    temporary_dir=windows_dir
+    os.mkdir(temporary_dir)
+    os.chdir(temporary_dir)
+    git.Git().clone("https://github.com/embeddedartistry/config-files","config-files",depth=1)
+    os.chdir(f"{temporary_dir}//config-files")
+    exec(open('copy_config.sh').read())
+    os.chdir(temporary_dir)
+    shutil.rmtree(f"{temporary_dir}//config-files")
+    os.chdir(f"{initial_dir}")
 
 
 

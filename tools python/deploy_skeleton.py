@@ -4,9 +4,11 @@ import os
 import subprocess
 import platform
 import shutil
-from turtle import update
+from turtle import clone, update
 import git 
 from git import Repo 
+import adr_func
+
 
 
 use_adr=0
@@ -131,15 +133,50 @@ if (use_submodules==1):
         index=Repo.init(submodule_dirs).index
         index.commit("Add submodules from project skeleton. ")
 else :
-    find = f'find {submodule_dirs} -name ".git*"'
+    findCMD = f'find {submodule_dirs} -name ".git*"'
     out = subprocess.Popen(findCMD,shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     for file in os.listdir(submodule_dirs):
         if file.endswith(".git*"):
             shutil.rmtree(submodule_dirs)
 if (use_git==1):
     repo.git.add(all=True )
+    
     index=Repo.init(submodule_dirs).index
     index.commit("Initial commit of project skeleton files.")
 
 if (replace_name !=""):
-    p=subprocess.Popen(f"{sed}")
+    subprocess.Popen(f"{sed} ",f's/PROJECT_NAME/{replace_name}/g "meson.build"')
+    replace_name=f"{replace_name}// /_"
+    subprocess.Popen(f"{sed} ",f's/PROJECT_NAME/{replace_name}/g "src/app/meson.build"')
+    subprocess.Popen(f"{sed} ",f's/PROJECT_NAME/{replace_name}/g "test/meson.build"')
+    
+    if(use_git==1):
+        index=Repo.init(submodule_dirs).index
+        index.commit(f"Replace placeholder values in build files with {replace_name} ")
+    
+if(use_adr==1):
+    adr_func.adr_init('/docs')
+    if use_git==1:
+        repo.git.add(all=True )
+        index=Repo.init(submodule_dirs).index
+        index.commit("Initiaize adr-tools")
+
+if(use_git==1):
+    try:
+        repo.git.pull("adham")
+        repo.git.push("adham")
+    except:
+        print("WARNING: git push failed: check repository.")
+
+if(replace_name ==""):
+    print("NOTE: Replace the placeholder project name in meson.build")
+    print("NOTE: Replace the placeholder application name in src/app/meson.build")
+    print("NOTE: Replace the placeholder test application name in test/meson.build")
+
+variable_1=os.path.isfile(f"{dest_dir}/LICENSE")
+variable_2=os.path.isfile(f"{dest_dir}/LICENSE.md")
+
+if ( (copy_license==0 and variable_1==False) or variable_2==False):
+    print("NOTE: Your project does not have a LICENSE or LICENSE.md file in the project root.")
+    
+
