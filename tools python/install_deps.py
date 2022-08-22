@@ -2,6 +2,9 @@ import os
 import sys 
 import getopt
 import platform
+import subprocess
+import requests
+
 
 pwd=os.getcwd()
 starting_dir=pwd
@@ -60,8 +63,23 @@ for o , a in opts :
 
 if (platform.system() == "Darwin"):
     if(update==1):
-        os.system("brew update")
+            os.system("brew update")
     else:
+            print("installing the Homebrew ...")
+            r = requests.get('https://raw.githubusercontent.com/Homebrew/install/master/install.sh')
+            r.status_code
+    os.system("brew tap homebrew/cask-versions")
+
+    subprocess.Popen(['brew',brew_command,brew_package],shell=True)
+    subprocess.Popen(['pip3','install',pip3_package,pip_update],shell=True)
+else:
+    os.system("sudo apt-get update ")
+
+
+
+
+
+    
         
         
 

@@ -87,7 +87,7 @@ file2.write("	deploy_skeleton -a -p \${@} `pwd`")
 file2.write("}")
 file2.write("")
 file2.write('alias sm_update_build="cd build; git checkout master; git pull; cd ../"')
-file2.write('alias sm_update_commit_build="sm_update_build; git add build; git commit -m 'Update build submodule to use the latest changes.'"')
+file2.write('alias sm_update_commit_build="sm_update_build; git add build; git commit -m "Update build submodule to use the latest changes."')
 
 
 
