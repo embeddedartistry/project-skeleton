@@ -1,10 +1,14 @@
-import os 
+
+import os
+from reprlib import recursive_repr 
 import sys 
 import getopt
 import platform
 import subprocess
 import requests
-
+import wget
+import shutil
+import git
 
 pwd=os.getcwd()
 starting_dir=pwd
@@ -41,7 +45,7 @@ for o , a in opts :
     elif o =="-r":
         toolchain_disable_sudo=input("TOOLCHAIN_DISABLE_SUDO :")
     elif o =="-z":
-        TOOL_DISABLE_SUDO=input("TOOL_DISABLE_SUDO :")
+        tool_disable_sudo=input("TOOL_DISABLE_SUDO :")
     elif o == "-e":
         update_env=1
     elif o == "-u":
@@ -73,7 +77,38 @@ if (platform.system() == "Darwin"):
     subprocess.Popen(['brew',brew_command,brew_package],shell=True)
     subprocess.Popen(['pip3','install',pip3_package,pip_update],shell=True)
 else:
-    os.system("sudo apt-get update ")
+    os.system(f"{tools_sudo} apt-get update ")
+    subprocess.Popen([tools_sudo, "apt",apt_command,"-y",apt_package],shell=True)
+    subprocess.Popen([tools_sudo,"-H","pip3","install",pip3_package,pip_update])
+
+    # Install Vale :
+
+    if(platform.system()=="Darwnin" or platform.system()=="Linux" ):
+      os.chdir("/tmp")
+      wget.download("https://install.goreleaser.com/github.com/ValeLint/vale.sh",'\tmp')
+      subprocess.Popen([tools_sudo,"sh","vale.sh","-b","/usr/local/bin"])
+      os.remove("vale.sh")
+      if(update==1):
+        os.chdir(f"{tool_install_dir}/adr-tools")
+        repo=git.Repo("/tmp")
+        repo.git.pull("adham")
+    else :
+        os.mkdir(tool_install_dir)
+        os.chdir(tool_disable_sudo)
+        git.Git().clone(" https://github.com/npryce/pottery.git",recursive_repr=True)
+
+#############################
+# Install Environment Files #
+#############################
+
+if(update==0):
+    if(update_env==1):
+        os.chdir(starting_dir)
+        
+
+
+
+
 
 
 
