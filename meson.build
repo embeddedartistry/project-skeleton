@@ -20,9 +20,9 @@ project('PROJECT_NAME',
 ################################
 
 # Pick up our common compiler variables + desired_*_flags variables
-subdir('build/compiler')
-subdir('build/compiler/c')
-subdir('build/compiler/cpp')
+subdir('meson/compiler')
+subdir('meson/compiler/c')
+subdir('meson/compiler/cpp')
 
 if get_option('debug')
 	add_project_arguments('-DDEBUG',
@@ -72,17 +72,17 @@ link_settings_list = [
 ]
 
 # Process the compilation flags
-subdir('build/compiler/check-and-apply-flags')
+subdir('meson/compiler/check-and-apply-flags')
 
 #################
 # Build Modules #
 #################
 
 # Include reusable build modules here via subdir() calls
-subdir('build/linker/linker-script-as-property')
-subdir('build/linker/linker-map')
-subdir('build/test/cmocka')
-subdir('build/objcopy')
+subdir('meson/linker/linker-script-as-property')
+subdir('meson/linker/linker-map')
+subdir('meson/test/cmocka')
+subdir('meson/objcopy')
 
 ###############
 # Subprojects #
@@ -109,19 +109,19 @@ subdir('test')
 
 # Defined after src and test so catch2_dep is fully populated
 # when creating the built-in targets
-subdir('build/test/catch2')
+subdir('meson/test/catch2')
 
 ###################
 # Tooling Modules #
 ###################
 
-subdir('build/analysis/clang-tidy')
-subdir('build/analysis/complexity')
-subdir('build/analysis/cppcheck')
-subdir('build/analysis/sloccount')
-subdir('build/analysis/vale')
-subdir('build/format')
-subdir('build/docs/doxygen')
+subdir('meson/analysis/clang-tidy')
+subdir('meson/analysis/complexity')
+subdir('meson/analysis/cppcheck')
+subdir('meson/analysis/sloccount')
+subdir('meson/analysis/vale')
+subdir('meson/format')
+subdir('meson/docs/doxygen')
 
 #############
 # Packaging #
@@ -146,4 +146,4 @@ native_pkg_files = [
 ]
 
 # Invoke the package module
-subdir('build/package')
+subdir('meson/package')
