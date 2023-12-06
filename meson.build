@@ -131,9 +131,9 @@ subdir('meson/docs/doxygen')
 # include paths. Examples:
 #	build_root_include.format('doc'),
 #	app_include.format('APP')
-build_root_include = meson.build_root() + ':@0@'
-app_include = meson.build_root() / 'src/app:@0@'
-lib_include = meson.build_root() / 'src/lib:@0@'
+build_root_include = meson.project_build_root() + ':@0@'
+app_include = meson.project_build_root() / 'src/app:@0@'
+lib_include = meson.project_build_root() / 'src/lib:@0@'
 
 host_pkg_files = [
 	build_root_include.format('docs'),
