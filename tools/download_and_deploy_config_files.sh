@@ -8,4 +8,4 @@ bash copy_config.sh
 ls copy_config.sh
 cd ../
 rm -rf config-files
-cd $INITIAL_DIR
+cd $INITIAL_DIR 
